@@ -1,13 +1,27 @@
 FROM n8nio/n8n
 
-# Expose the n8n port
-EXPOSE 5678
-
-# Switch to root to install ffmpeg
 USER root
 
 # Install ffmpeg
 RUN apt-get update && apt-get install -y ffmpeg
 
-# Switch back to node user (required by n8n)
+# Switch back to node user
 USER node
+
+# Set environment variable to load from Render
+ENV N8N_BASIC_AUTH_ACTIVE=$N8N_BASIC_AUTH_ACTIVE \
+    N8N_BASIC_AUTH_USER=$N8N_BASIC_AUTH_USER \
+    N8N_BASIC_AUTH_PASSWORD=$N8N_BASIC_AUTH_PASSWORD \
+    DB_TYPE=$DB_TYPE \
+    DB_POSTGRESDB_HOST=$DB_POSTGRESDB_HOST \
+    DB_POSTGRESDB_PORT=$DB_POSTGRESDB_PORT \
+    DB_POSTGRESDB_DATABASE=$DB_POSTGRESDB_DATABASE \
+    DB_POSTGRESDB_USER=$DB_POSTGRESDB_USER \
+    DB_POSTGRESDB_PASSWORD=$DB_POSTGRESDB_PASSWORD \
+    DB_POSTGRESDB_SCHEMA=$DB_POSTGRESDB_SCHEMA \
+    N8N_ENCRYPTION_KEY=$N8N_ENCRYPTION_KEY \
+    WEBHOOK_TUNNEL_URL=$WEBHOOK_TUNNEL_URL \
+    N8N_EDITOR_BASE_URL=$N8N_EDITOR_BASE_URL
+
+# Default command
+CMD ["n8n"]

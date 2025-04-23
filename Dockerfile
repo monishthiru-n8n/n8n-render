@@ -1,15 +1,9 @@
-# Use a full Debian-based image so we can install ffmpeg
 FROM n8nio/n8n:latest-debian
-
-USER root
 
 # Install ffmpeg
 RUN apt-get update && apt-get install -y ffmpeg
 
-# Switch back to node (n8n requires this)
-USER node
-
-# Keep Render env variables available
+# Set environment variables (preserve Render's dashboard config)
 ENV N8N_BASIC_AUTH_ACTIVE=$N8N_BASIC_AUTH_ACTIVE \
     N8N_BASIC_AUTH_USER=$N8N_BASIC_AUTH_USER \
     N8N_BASIC_AUTH_PASSWORD=$N8N_BASIC_AUTH_PASSWORD \
@@ -22,7 +16,8 @@ ENV N8N_BASIC_AUTH_ACTIVE=$N8N_BASIC_AUTH_ACTIVE \
     DB_POSTGRESDB_SCHEMA=$DB_POSTGRESDB_SCHEMA \
     N8N_ENCRYPTION_KEY=$N8N_ENCRYPTION_KEY \
     WEBHOOK_TUNNEL_URL=$WEBHOOK_TUNNEL_URL \
-    N8N_EDITOR_BASE_URL=$N8N_EDITOR_BASE_URL
+    N8N_EDITOR_BASE_URL=$N8N_EDITOR_BASE_URL \
+    N8N_USER_FOLDER=/root/.n8n
 
-# Start n8n
+# Run n8n directly (as root)
 CMD ["n8n"]

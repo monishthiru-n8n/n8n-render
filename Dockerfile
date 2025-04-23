@@ -7,4 +7,5 @@ RUN apt-get update && apt-get install -y ffmpeg
 # (so we don't override or duplicate anything accidentally)
 
 # Start n8n (will run as root — OK in Render)
-CMD ["n8n"]
+CMD ["n8n", "migrate"]
+

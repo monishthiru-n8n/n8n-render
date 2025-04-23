@@ -3,21 +3,8 @@ FROM n8nio/n8n:latest-debian
 # Install ffmpeg
 RUN apt-get update && apt-get install -y ffmpeg
 
-# Set environment variables (preserve Render's dashboard config)
-ENV N8N_BASIC_AUTH_ACTIVE=$N8N_BASIC_AUTH_ACTIVE \
-    N8N_BASIC_AUTH_USER=$N8N_BASIC_AUTH_USER \
-    N8N_BASIC_AUTH_PASSWORD=$N8N_BASIC_AUTH_PASSWORD \
-    DB_TYPE=$DB_TYPE \
-    DB_POSTGRESDB_HOST=$DB_POSTGRESDB_HOST \
-    DB_POSTGRESDB_PORT=$DB_POSTGRESDB_PORT \
-    DB_POSTGRESDB_DATABASE=$DB_POSTGRESDB_DATABASE \
-    DB_POSTGRESDB_USER=$DB_POSTGRESDB_USER \
-    DB_POSTGRESDB_PASSWORD=$DB_POSTGRESDB_PASSWORD \
-    DB_POSTGRESDB_SCHEMA=$DB_POSTGRESDB_SCHEMA \
-    N8N_ENCRYPTION_KEY=$N8N_ENCRYPTION_KEY \
-    WEBHOOK_TUNNEL_URL=$WEBHOOK_TUNNEL_URL \
-    N8N_EDITOR_BASE_URL=$N8N_EDITOR_BASE_URL \
-    N8N_USER_FOLDER=/root/.n8n
+# Set environment variables using Render’s dashboard, not Dockerfile
+# (so we don't override or duplicate anything accidentally)
 
-# Run n8n directly (as root)
+# Start n8n (will run as root — OK in Render)
 CMD ["n8n"]

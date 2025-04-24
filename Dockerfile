@@ -5,5 +5,5 @@ RUN apt-get update && apt-get install -y ffmpeg
 
 EXPOSE 5678
 
-# Directly call internal migration script
-CMD ["sh", "-c", "node /usr/local/lib/node_modules/n8n/dist/src/commands/migrate.js && echo '✅ Migrations complete'"]
+# Run n8n with migrations first
+CMD ["sh", "-c", "n8n start --migrate && echo '✅ Migrations complete'"]

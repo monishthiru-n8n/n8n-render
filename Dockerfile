@@ -3,8 +3,7 @@ FROM n8nio/n8n:latest-debian
 # Install ffmpeg
 RUN apt-get update && apt-get install -y ffmpeg
 
-# Expose port (Render needs this)
 EXPOSE 5678
 
-# Run n8n database migrations, then stop
-CMD ["sh", "-c", "n8n migrate && echo '✅ Migrations complete'"]
+# Directly call internal migration script
+CMD ["sh", "-c", "node /usr/local/lib/node_modules/n8n/dist/src/commands/migrate.js && echo '✅ Migrations complete'"]
